@@ -2,7 +2,7 @@
 
 Matrix::Matrix()
 {
-    //ctor
+    //creates a unit matrix
 }
 
 Matrix::~Matrix()

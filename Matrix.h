@@ -14,8 +14,8 @@ class Matrix
         int _m;
         int _tr;
         int _det;
-        //std::vector<Vector> _m; ?
-        //std::vector<std::vector<double>> _m; ?
+
+
 
 };
 
