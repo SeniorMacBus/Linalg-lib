@@ -1,4 +1,4 @@
-#include "Vector.h"
+#include "Vector.hpp"
 
 //Constructors ############################################################################################################
 Vector::Vector()
@@ -44,12 +44,24 @@ Vector::~Vector()
 //Misc member functions #####################################################################################################
 void Vector::print()
 {
-    std::cout << '[';
-    for(int i = 0; i < _dims - 1; ++i)
+    if(transposed)
     {
-        std::cout << _vals.at(i) << ", ";
+        std::cout << '[' << _vals.at(0) << ',' << std::endl;
+        for(int j = 1; j < _dims - 1; ++j)
+        {
+            std::cout << _vals.at(j) << ',' << std::endl;
+        }
+        std::cout << _vals.at(_dims - 1) << ']' << std::endl;
     }
-    std::cout << _vals.at(_dims - 1) << ']' << std::endl;
+    else
+    {
+        std::cout << '[';
+        for(int i = 0; i < _dims - 1; ++i)
+        {
+            std::cout << _vals.at(i) << ", ";
+        }
+        std::cout << _vals.at(_dims - 1) << ']' << std::endl;
+    }
 }
 
 void Vector::t()
