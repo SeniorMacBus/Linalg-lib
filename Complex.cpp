@@ -1,5 +1,7 @@
 #include "Complex.hpp"
 
+//Constructors and destructors #######################################
+
 Complex::Complex()
 {
     _re = 0;
@@ -8,7 +10,7 @@ Complex::Complex()
     _phi = PI / 2;
 }
 
-Complex::Complex(double a, double b, bool alg = true)
+Complex::Complex(double a, double b, bool alg)
 {
     if(alg)
     {
@@ -31,9 +33,29 @@ Complex::~Complex()
 
 }
 
+//Printers ##############################################################################
+
 void Complex::print_alg()
 {
-    std::cout << _re << " + " << _im << 'i' << std::endl;
+    if(_re != 0.0)
+    {
+        if(_im > 0)
+        {
+            std::cout << _re << " + " << _im << 'i' << std::endl;
+        }
+        else if(_im < 0)
+        {
+            std::cout << _re << " - " << std::abs(_im) << 'i' << std::endl;
+        }
+        else if(_im == 0)
+        {
+            std::cout << _re << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << _im << 'i' << std::endl;
+    }
 }
 
 void Complex::print_trig()
@@ -46,9 +68,24 @@ void Complex::print_euler()
     std::cout << _r << "exp(" << _phi << "i)" << std::endl; 
 }
 
+//Complex operations ##################################################################
+
+void Complex::adjungate()
+{
+    _im = -_im;
+    _phi = atan2(_im, _re);
+}
+
+Complex Complex::pow(double n)
+{
+    return Complex(std::pow(_r, n), _phi * n, false);
+}
+
+//Operator overloads ##################################################################
+
 Complex Complex::operator+ (const Complex &other) const
 {
-    return Complex(_re + other._re, _im + other._im, true);
+    return Complex(_re + other._re, _im + other._im);
 }
 
 Complex Complex::operator- (const Complex &other) const
@@ -65,5 +102,32 @@ Complex Complex::operator+= (const Complex &other)
 Complex Complex::operator-= (const Complex &other)
 {
     *this = *this - other;
+    return *this;
+}
+
+Complex Complex::operator* (const Complex &other) const
+{
+    return Complex(_r * other._r, _phi + other._phi, false);
+}
+
+Complex Complex::operator*= (const Complex &other)
+{
+    *this = *this * other;
+    return *this;
+}
+
+Complex operator* (const double d, Complex &z)
+{
+    return Complex(d * z.get_re(), d * z.get_im());
+}
+
+Complex operator* (Complex &z, const double d)
+{
+    return Complex(d * z.get_re(), d * z.get_im());
+}
+
+Complex Complex::operator*= (const double d)
+{
+    *this = *this * d;
     return *this;
 }
