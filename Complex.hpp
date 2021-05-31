@@ -1,7 +1,7 @@
 #ifndef COMPLEX_H
 #define COMPLEX_H
 
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 class Complex
@@ -36,6 +36,8 @@ class Complex
         Complex operator*= (const double d);
         Complex operator= (const Complex &z);
 
+        friend std::ostream& operator<< (std::ostream &os, const Complex &z);
+
     private:
         double _re; //real part
         double _im; //imaginary part
@@ -46,8 +48,9 @@ class Complex
 Complex operator* (const double d, Complex &z);
 Complex operator* (Complex &z, const double d);
 bool operator== (const Complex &z1, const Complex &z2);
-Complex pow(Complex z, double n);
-Complex root(Complex z, double n);
+Complex pow(Complex &z, double n);
+Complex root(Complex &z, double n);
+Complex ln(Complex &z);
 
 int round_to_zero(double d);
 

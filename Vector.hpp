@@ -1,16 +1,13 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <cmath>
-#include <iostream>
-#include <string>
-#include <stdexcept>
-#include <initializer_list>
+#include "Matrix.hpp"
 
 template <typename T>
 class Vector
 {
     public:
+    //ctors and dtor
         Vector()
         {
             //creates a 2d unit vector
@@ -60,13 +57,14 @@ class Vector
 
         //getters
         inline double get_l() const {return _l;};
-        inline T get_val(int i) const {return _data[i];};
+        inline T get_val(int i) const {return _data[i - 1];};
         inline int get_dim() const {return _dims;};
 
-        inline T * at(int i) {return  &(_data[i]);};
+        inline T * at(int i) const {return  &(_data[i - 1]);};
+        inline bool get_T() const {return transposed;};
 
         //setters
-        void set_val(int i, T val) {_data[i] = val;};
+        void set_val(int i, T val) {_data[i - 1] = val;};
         
         void set_len(double l); //sets the length
         
@@ -80,6 +78,7 @@ class Vector
             }
         }
 
+        //operators
         Vector operator+ (const Vector &v) const
         {
             if(_dims == v._dims)
@@ -167,7 +166,8 @@ class Vector
             _l = 1;
         }
         
-        void print()
+        //other functions
+        void print() const
         {
             if(transposed)
             {
@@ -195,7 +195,7 @@ class Vector
         }
 
     private:
-        double len()
+        T len()
         {
             T s = 0;
             for(int i = 0; i < _dims; ++i)
@@ -213,6 +213,7 @@ class Vector
 
 };
 
+//operators as global functions
 template <typename T>
 Vector<T> operator* (const Vector<T> &v, const T d)
 {
@@ -237,6 +238,7 @@ Vector<T> operator* (const T d, const Vector<T> &v)
     return u;
 }
 
+//vector operations
 template <typename T>
 T dot_prod(const Vector<T> &v1, const Vector<T> &v2)
 {
@@ -276,6 +278,22 @@ Vector<T> cross_prod(const Vector<T> &v1, const Vector<T> &v2)
         return u;
     }
 }
-//NEED TO DO
-// diadic_prod() function (global)
+
+template <typename T>
+Matrix<T> diadic_prod(const Vector<T> &v1, const Vector<T> &v2)
+{
+    Matrix<T> MX(v1.get_dim(), v2.get_dim());
+
+    for(int i = 0; i  < v1.get_dim(); ++i)
+    {
+        for(int j = 0; j < v2.get_dim(); ++j)
+        {
+            MX.set_val(i + 1, j + 1, v1.get_val(i + 1) * v2.get_val(j + 1));
+        }
+    }
+
+    return MX;
+}
+
+
 #endif // VECTOR_H
